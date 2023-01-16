@@ -1,5 +1,20 @@
 - hosts: all
   tasks:
+  - name: "install build tools"
+    apt:
+     name: 
+      - build-essential
+      - libtool
+      - automake
+      - autoconf
+      - pkg-config
+      - python3.8-dev
+      - libgd-dev
+      - libgeoip-dev
+      - libxslt1-dev
+      - libxml2-dev
+     update_cache: true
+
   - name: "Creates directory"
     file:
      path: /opt/build-nginx

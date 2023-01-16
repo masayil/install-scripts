@@ -1,5 +1,11 @@
 - hosts: all
   tasks:
+  - name: "install build tools"
+    apt:
+     name: 
+      - build-essential
+     update_cache: true
+
   - name: "Creates directory /opt/build-redis"
     file:
      path: /opt/build-redis
@@ -19,11 +25,6 @@
     unarchive:
       src: ./7.0.7.tar.gz
       dest: /opt/build-redis
-
-  - name: "install build tools"
-    apt:
-     name: ["build-essential"]
-     update_cache: true
 
   - name: "cp logrotate conf"
     copy:

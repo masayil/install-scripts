@@ -5,8 +5,6 @@ set -euxo pipefail
 
 cd /opt/build-nginx
 
-apt update &> /dev/null && apt install -y build-essential libtool automake autoconf pkg-config python3.8-dev libgd-dev libgeoip-dev libxslt1-dev libxml2-dev &> /dev/null
-
 #cd /opt/build-nginx/libxml2-2.10.3 && ./configure &> /dev/null  && make -j4 &> /dev/null && make install &> /dev/null
 #cd /opt/build-nginx/libxslt-1.1.36 && ./configure &> /dev/null && make -j4 &> /dev/null && make install &> /dev/null
 
