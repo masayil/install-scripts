@@ -1,0 +1,60 @@
+- hosts: all
+  tasks:
+  - name: "Creates directory /opt/build-redis"
+    file:
+     path: /opt/build-redis
+     state: directory
+
+  - name: "Creates directory /etc/redis"
+    file:
+     path: /etc/redis
+     state: directory
+
+  - name: "Creates directory /data/redis"
+    file:
+     path: /data/redis
+     state: directory
+
+  - name: "unarchive redis"
+    unarchive:
+      src: ./7.0.7.tar.gz
+      dest: /opt/build-redis
+
+  - name: "install build tools"
+    apt:
+     name: ["build-essential"]
+     update_cache: true
+
+  - name: "cp logrotate conf"
+    copy:
+     src: ./redis
+     dest: /etc/logrotate.d/
+     mode: 0644
+
+  - name: "cp redis conf"
+    copy:
+     src: ./redis.conf
+     dest: /etc/redis/
+     mode: 0644
+
+  - name: "cp redis-server.service"
+    copy:
+     src: ./redis-server.service
+     dest: /lib/systemd/system/
+     mode: 0644
+
+  - name: "cp install script"
+    copy:
+     src: ./install-redis.sh
+     dest: /opt/build-redis
+     mode: 0755
+
+  - name: "run install-redis.sh"
+    shell: "bash /opt/build-redis/install-redis.sh"
+
+  - name: "start redis"
+    systemd:
+     name: redis-server.service
+     daemon_reload: yes
+     state: started
+     enabled: yes

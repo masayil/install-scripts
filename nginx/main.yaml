@@ -1,0 +1,81 @@
+- hosts: all
+  tasks:
+  - name: "Creates directory"
+    file:
+     path: /opt/build-nginx
+     state: directory
+
+  - name: "unarchive nginx"
+    unarchive:
+     src: ./nginx-1-22.1.tar.gz
+     dest: /opt/build-nginx
+
+  - name: "unarchive openssl"
+    unarchive:
+     src: ./openssl-3.0.7.tar.gz
+     dest: /opt/build-nginx
+
+  - name: "unarchive pcre2"
+    unarchive:
+     src: ./pcre2-10.42.tar.gz
+     dest: /opt/build-nginx
+
+  - name: "unarchive zlib"
+    unarchive:
+     src: ./zlib-1.2.11.tar.gz
+     dest: /opt/build-nginx
+
+  - name: "unarchive libxslt"
+    unarchive:
+     src: ./libxslt-1.1.36.tar.xz
+     dest: /opt/build-nginx
+
+  - name: "unarchive libxml2"
+    unarchive:
+     src: ./libxml2-2.10.3.tar.xz
+     dest: /opt/build-nginx
+
+  - name: "unarchive nginx-module-vts"
+    unarchive:
+     src: ./nginx-module-vts.tar.gz
+     dest: /opt/build-nginx
+
+  - name: "cp logrotate conf"
+    copy:
+     src: ./nginx
+     dest: /etc/logrotate.d/
+     mode: 0644
+
+  - name: "cp nginx.service"
+    copy:
+     src: ./nginx.service
+     dest: /lib/systemd/system/
+     mode: 0644
+
+  - name: "cp install script"
+    copy:
+     src: ./install-nginx.sh
+     dest: /opt/build-nginx
+     mode: 0755
+
+  - name: "run install-nginx.sh"
+    shell: "bash /opt/build-nginx/install-nginx.sh"
+
+  - name: "cp nginx.conf"
+    copy:
+     src: ./nginx.conf
+     dest: /etc/nginx
+     mode: 0644
+
+  - name: "apply basic_status.j2"
+    template:
+     src: ./basic_status.j2
+     dest: /etc/nginx/conf.d/basic_status.conf
+     mode: 0644
+     
+  - name: "start nginx"
+    systemd:
+     name: nginx.service
+     daemon_reload: yes
+     state: started
+     enabled: yes

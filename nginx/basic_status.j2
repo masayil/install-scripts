@@ -1,0 +1,29 @@
+server {
+       listen 10080 ;
+       vhost_traffic_status off;
+       location /basic_status {
+       stub_status;
+       allow 127.0.0.1;
+       {% for ip in ansible_all_ipv4_addresses %}
+       allow {{ip}};
+       {% endfor %}
+       allow ::1;
+       deny all;
+       }
+}
+
+server {
+       listen 10090 ;
+       location /status {
+       vhost_traffic_status_display;
+       vhost_traffic_status_display_format prometheus;
+       vhost_traffic_status_bypass_stats on;
+       vhost_traffic_status_bypass_limit on;
+       allow 127.0.0.1;
+       {% for ip in ansible_all_ipv4_addresses %}
+       allow {{ip}};
+       {% endfor %}
+       allow ::1;
+       deny all;
+       }
+}
