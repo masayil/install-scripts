@@ -4,7 +4,8 @@ After=network.target
 Documentation=http://redis.io/documentation, man:redis-server(1)
 
 [Service]
-Type=simple
+Type=notify
+PIDFile=/run/redis.pid
 ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf
 ExecStop=/usr/local/bin/redis-cli shutdown
 User=root
