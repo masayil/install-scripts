@@ -4,6 +4,7 @@
     apt:
      name: 
       - build-essential
+      - libsystemd-dev
      update_cache: true
 
   - name: "Creates directory /opt/build-redis"
@@ -58,4 +59,3 @@
      name: redis-server.service
      daemon_reload: yes
      state: started
-     enabled: yes
