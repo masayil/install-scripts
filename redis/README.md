@@ -10,3 +10,9 @@
 ansible-playbook -i hosts main.yaml
 ```
 
+三、重启redis-server和rsyslog
+
+```shell
+systemctl restart redis-server.service
+systemctl restart rsyslog.service 
+```

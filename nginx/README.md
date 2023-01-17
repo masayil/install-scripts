@@ -10,3 +10,9 @@
 ansible-playbook -i hosts main.yaml
 ```
 
+三、重启nginx和rsyslog
+
+```shell
+systemctl restart nginx.service
+systemctl restart rsyslog.service 
+```
